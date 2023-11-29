@@ -18,7 +18,7 @@ def main():
             st.error(f"An error occurred: {str(e)}")
 
 def make_prediction(model_path, audio_file):
-    pred = LivePredictions(model_path, audio_file)
+    pred = livePredictions(model_path, audio_file)
     pred.load_model()
     prediction = pred.make_predictions()
     return prediction
