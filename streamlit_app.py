@@ -73,7 +73,7 @@ def main():
 
 def make_prediction(model_path, audio_file):
     pred = LivePredictions(model_path, audio_file)
-    pred.load_model()
+    pred = pred.load_model()
     prediction = pred.make_predictions()
     return prediction
 
