@@ -61,11 +61,6 @@ class livePredictions:
         x = np.expand_dims(x, axis=0)
         predict_x=model.predict(x) 
         predictions=np.argmax(predict_x,axis=1)
-
-        # predictions = (model.predict(x) > 0.5).astype("int32")
-        # (a & b).any()
-
-        # predictions = self.loaded_model.predict_classes(x)
         print("Prediction is", " ", self.convertclasstoemotion(predictions))
 
     @staticmethod
