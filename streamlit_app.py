@@ -1,5 +1,5 @@
 import streamlit as st
-from live_predictions import LivePredictions
+from live_predictions import livePredictions
 
 def main():
     st.title("Speech Emotion Recognition App")
