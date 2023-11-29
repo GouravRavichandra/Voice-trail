@@ -2,7 +2,7 @@ import keras
 import numpy as np
 import librosa
 
-class livePredictions:
+class LivePredictions:
     """
     Main class for live speech emotion predictions.
     """
