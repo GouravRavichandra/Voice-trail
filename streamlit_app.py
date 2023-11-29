@@ -71,7 +71,7 @@ def main():
         except Exception as e:
             st.error(f"An error occurred: {str(e)}")
 
-def make_predictions(model_path, audio_file):
+def make_prediction(model_path, audio_file):
     pred = LivePredictions(model_path, audio_file)
     pred.load_model()
     prediction = pred.make_predictions()
