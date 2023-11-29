@@ -39,7 +39,7 @@ class LivePredictions:
             raise ValueError("Model not loaded. Call load_model() first.")
 
         features = self.extract_features()
-        predictions = self.loaded_model.predict_classes(features)
+        predictions = self.loaded_model.model.predict(features)
         emotion_label = self.convert_class_to_emotion(predictions[0])
         return emotion_label
 
