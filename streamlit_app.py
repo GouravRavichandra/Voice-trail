@@ -20,20 +20,9 @@ def main():
 def make_prediction(model_path, audio_file):
     pred = LivePredictions(model_path, audio_file)
     pred.load_model()
+    prediction = pred.make_predictions()
+    return prediction
 
-    # Assuming your model predicts probabilities for each class
-    predictions = pred.make_predictions()
-
-    # Convert probabilities to class labels
-    predicted_class = decode_predictions(predictions)
-
-    return predicted_class
-
-def decode_predictions(predictions):
-    # Add your logic to convert probabilities to class labels here
-    # For example, you can use np.argmax or a threshold to determine the predicted class
-    # Replace the following line with your actual implementation
-    return "Some_predicted_emotion_label"
 
 def display_emotion_label(prediction):
     st.write(f"Predicted Emotion: {prediction}")
