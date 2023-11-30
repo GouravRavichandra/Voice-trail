@@ -1,5 +1,26 @@
 import streamlit as st
-from live_predictions import LivePredictions
+import keras
+import numpy as np
+import librosa
+
+
+def convert_class_to_emotion(pred):
+    """
+    Method to convert the predictions (int) into human-readable strings.
+    """
+
+    label_conversion = {
+        0: 'neutral',
+        1: 'calm',
+        2: 'happy',
+        3: 'sad',
+        4: 'angry',
+        5: 'fearful',
+        6: 'disgust',
+        7: 'surprised'
+    }
+
+    return label_conversion.get(int(pred), 'Unknown')
 
 def main():
     st.title("Speech Emotion Recognition App")
@@ -13,30 +34,21 @@ def main():
         st.audio(uploaded_file, format="audio/wav")
         try:
             prediction = make_prediction(model_path, uploaded_file)
-            display_emotion_label(prediction)
+            st.write(f"Predicted Emotion: {prediction}")
         except Exception as e:
             st.error(f"An error occurred: {str(e)}")
 
 def make_prediction(model_path, audio_file):
-    pred = LivePredictions(model_path, audio_file)
-    pred.load_model()
-
-    # Assuming your model predicts probabilities for each class
-    predictions = pred.make_predictions()
-
-    # Convert probabilities to class labels
-    predicted_class = decode_predictions(predictions)
-
-    return predicted_class
-
-def decode_predictions(predictions):
-    # Add your logic to convert probabilities to class labels here
-    # For example, you can use np.argmax or a threshold to determine the predicted class
-    # Replace the following line with your actual implementation
-    return "Some_predicted_emotion_label"
-
-def display_emotion_label(prediction):
-    st.write(f"Predicted Emotion: {prediction}")
+    loaded_model = keras.models.load_model(model_path)
+    summ = loaded_model.summary()
+    data, sampling_rate = librosa.load(audio_file)
+    mfccs = np.mean(librosa.feature.mfcc(y=data, sr=sampling_rate, n_mfcc=40).T, axis=0)
+    x = np.expand_dims(mfccs, axis=1)
+    x = np.expand_dims(x, axis=0)
+    predict_x = loaded_model.predict(x)
+    prediction = np.argmax(predict_x, axis=1)
+    prediction = convert_class_to_emotion(prediction)
+    return prediction
 
 if __name__ == "__main__":
     main()
